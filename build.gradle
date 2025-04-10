@@ -1,17 +1,6 @@
-buildscript {
-    repositories {
-        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-
-    dependencies {
-        classpath "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:0.4.2"
-    }
-}
-
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.1'
+    id 'org.jetbrains.intellij' version '1.17.4'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -22,35 +11,33 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile ('com.tinify:tinify:1.6.2') {
-//        exclude group: 'com.google.code.gson', module: 'gson'
-//        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-//        exclude group: 'com.squareup.okio', module: 'okio'
+    testImplementation 'junit:junit:4.12'
+
+    implementation('com.tinify:tinify:1.6.2') {
+        // exclude 示例（可选）
+        // exclude group: 'com.google.code.gson', module: 'gson'
+        // exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        // exclude group: 'com.squareup.okio', module: 'okio'
     }
-    compile ('io.sentry:sentry:1.7.16') {
+
+    implementation('io.sentry:sentry:1.7.16') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
     }
 }
 
 intellij {
-    version ideVersion
-    updateSinceUntilBuild false
-    plugins = [
-            "coverage",
-            "java-i18n",
-            "remote-run",
-            "properties",
-    ]
+    version.set("2024.1.7")
+
+//    plugins.set()
+//    plugins = [
+//            "coverage",
+//            "java-i18n",
+//            "remote-run",
+//            "properties",
+//    ]
 }
 
 group 'com.nvlad'
 version '1.0.9'
 
-patchPluginXml {
-    changeNotes """
-- Update "Usage this month" value on Open plugin settings or press Apply
-- Catch TinyPNG service errors.
-"""
-}
