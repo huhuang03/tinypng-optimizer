@@ -14,10 +14,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     implementation('com.tinify:tinify:1.6.2') {
-        // exclude 示例（可选）
-        // exclude group: 'com.google.code.gson', module: 'gson'
-        // exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-        // exclude group: 'com.squareup.okio', module: 'okio'
     }
 
     implementation('io.sentry:sentry:1.7.16') {
@@ -28,16 +24,15 @@ dependencies {
 
 intellij {
     version.set("2024.1.7")
-
-//    plugins.set()
-//    plugins = [
-//            "coverage",
-//            "java-i18n",
-//            "remote-run",
-//            "properties",
-//    ]
 }
 
 group 'com.nvlad'
 version '1.0.9'
 
+
+tasks {
+    patchPluginXml {
+        sinceBuild.set("241")
+        untilBuild.set("243.*")
+    }
+}
