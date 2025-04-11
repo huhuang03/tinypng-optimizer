@@ -18,14 +18,12 @@ public class ErrorReportHandler extends ErrorReportSubmitter {
     }
 
     @Override
-    public boolean submit(IdeaLoggingEvent @NotNull [] events, @Nullable String additionalInfo,
-                          @NotNull Component parentComponent, @NotNull Consumer<? super SubmittedReportInfo> consumer) {
+    public boolean submit(IdeaLoggingEvent @NotNull [] events, @Nullable String additionalInfo, @NotNull Component parentComponent, @NotNull Consumer<? super SubmittedReportInfo> consumer) {
         for (IdeaLoggingEvent event : events) {
             Throwable throwable = event.getThrowable();
             if (event.getData() instanceof AbstractMessage) {
                 throwable = ((AbstractMessage) event.getData()).getThrowable();
             }
-
             SentryErrorReporter.submitErrorReport(throwable, additionalInfo, consumer);
         }
 
