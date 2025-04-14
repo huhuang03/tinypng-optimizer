@@ -1,9 +1,6 @@
 package com.nvlad.tinypng.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -41,7 +38,8 @@ public abstract class BaseCompressAction extends AnAction {
             return;
         }
 
-        final List<VirtualFile> list = getSupportedFileList(PlatformDataKeys.VIRTUAL_FILE_ARRAY.getData(e.getDataContext()), true);
+        final VirtualFile[] files = e.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
+        final List<VirtualFile> list = getSupportedFileList(files, true);
         final Presentation presentation = e.getPresentation();
         presentation.setEnabled(!list.isEmpty());
     }
