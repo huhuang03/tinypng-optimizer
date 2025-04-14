@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class BaseCompressAction extends AnAction {
-    private static final String[] supportedExtensions = {"png", "jpg", "jpeg"};
+    private static final String[] SUPPORTED_EXTENSIONS = {"png", "jpg", "jpeg"};
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -32,19 +32,6 @@ public abstract class BaseCompressAction extends AnAction {
     }
 
     @Override
-    public void update(AnActionEvent e) {
-        PluginGlobalSettings settings = PluginGlobalSettings.getInstance();
-        if (!settings.checkSupportedFiles) {
-            return;
-        }
-
-        final VirtualFile[] files = e.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
-        final List<VirtualFile> list = getSupportedFileList(files, true);
-        final Presentation presentation = e.getPresentation();
-        presentation.setEnabled(!list.isEmpty());
-    }
-
-    @Override
     public boolean isDumbAware() {
         return true;
     }
@@ -57,6 +44,7 @@ public abstract class BaseCompressAction extends AnAction {
 
         for (VirtualFile file : files) {
             if (file.isDirectory()) {
+                //noinspection UnsafeVfsRecursion
                 result.addAll(getSupportedFileList(file.getChildren(), breakOnFirstFound));
                 if (breakOnFirstFound && !result.isEmpty()) {
                     break;
@@ -66,7 +54,7 @@ public abstract class BaseCompressAction extends AnAction {
             }
 
             final String extension = file.getExtension();
-            if (extension != null && ArrayUtil.contains(extension.toLowerCase(), supportedExtensions)) {
+            if (extension != null && ArrayUtil.contains(extension.toLowerCase(), SUPPORTED_EXTENSIONS)) {
                 result.add(file);
                 if (breakOnFirstFound) {
                     break;
