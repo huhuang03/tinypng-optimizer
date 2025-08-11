@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CompressDialogAction extends BaseCompressAction {
+
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();

@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CheckboxTree;
 import com.intellij.ui.JBColor;
+import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.tree.TreeUtil;
 import com.nvlad.tinypng.Constants;
@@ -68,6 +69,7 @@ public class ProcessImageDialog extends JDialog {
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 onClose();
             }
@@ -113,14 +115,17 @@ public class ProcessImageDialog extends JDialog {
     }
 
     private void configureUI() {
+        UIUtil.removeScrollBorder(scrollPanel);
         splitPanel.setBackground(UIUtil.getPanelBackground());
         splitPanel.setUI(new BasicSplitPaneUI() {
+            @Override
             public BasicSplitPaneDivider createDefaultDivider() {
                 return new BasicSplitPaneDivider(this) {
                     private final int dashHeight = 40;
                     private Color background = UIUtil.getPanelBackground();
-                    private Color dashes = UIUtil.getSeparatorColor();
+                    private Color dashes = JBUI.CurrentTheme.CustomFrameDecorations.separatorForeground();
 
+                    @Override
                     public void setBorder(Border b) {
                     }
 
@@ -208,7 +213,6 @@ public class ProcessImageDialog extends JDialog {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        UIUtil.removeScrollBorder(scrollPanel);
         imageBefore = new JImage();
         imageAfter = new JImage();
         fileTree = new CheckboxTree(new FileCellRenderer(myProject), buildTree());
